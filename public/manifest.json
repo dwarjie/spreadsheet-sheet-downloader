@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "Spreadsheet Sheet Downloader",
+    "version": "1.0.0",
+    "description": "Enables downloading a single sheets from Google Spreadsheets.",
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "file-arrow-down-solid.svg"
+            ],
+            "matches": [
+                "https://docs.google.com/*"
+            ]
+        }
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://docs.google.com/spreadsheets/*"
+            ],
+            "js": [
+                "src/main.js"
+            ]
+        }
+    ]
+}
