@@ -1,4 +1,5 @@
 import { simulateTabClick } from "./clickUtils.js";
+import { combineSheetsFromGids } from "./sheetCombiner.js";
 
 const getSheetKeyAndGid = () => {
     // Example URL: https://docs.google.com/spreadsheets/d/<KEY>/edit#gid=<GID>
@@ -48,13 +49,33 @@ const downloadMultipleSheets = async (selectedSheetNames, originalTab) => {
         return;
     }
 
+    const ids = getSheetKeyAndGid();
+    if (!ids) {
+        alert("Could not determine sheet KEY.");
+        return;
+    }
+
+    // Collect GIDs for all selected sheets
+    const gidSheetMap = new Map();
+
     for (const sheetName of selectedSheetNames) {
         const gid = await getGidBySheetName(sheetName, originalTab);
         if (gid) {
+            gidSheetMap.set(sheetName, gid);
             console.log(`Sheet: "${sheetName}" - GID: ${gid}`);
         } else {
             console.warn(`Could not get GID for sheet: ${sheetName}`);
         }
+    }
+
+    // Combine and download all sheets
+    if (gidSheetMap.size > 0) {
+        const success = await combineSheetsFromGids(ids.key, gidSheetMap);
+        if (!success) {
+            alert("Failed to combine sheets. Please try again.");
+        }
+    } else {
+        alert("No valid sheets found to download.");
     }
 };
 
