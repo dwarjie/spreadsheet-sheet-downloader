@@ -1,3 +1,5 @@
+import { simulateTabClick } from "./clickUtils.js";
+
 const getSheetKeyAndGid = () => {
     // Example URL: https://docs.google.com/spreadsheets/d/<KEY>/edit#gid=<GID>
     const match = window.location.href.match(/\/d\/([a-zA-Z0-9-_]+)\/.*[#&]gid=(\d+)/);
@@ -28,7 +30,6 @@ const getAllSheetNames = () => {
 
 const getCurrentSheetName = () => {
     const activeTab = document.querySelector(".docs-sheet-tab.docs-sheet-active-tab");
-    console.log(activeTab);
     return activeTab ? cleanSheetName(activeTab.textContent) : null;
 };
 
@@ -38,22 +39,7 @@ const getGidBySheetName = async (sheetName, originalTab) => {
 
     if (!targetTab) return null;
 
-    // Method 2: mousedown + mouseup + click
-    const gidBefore = getCurrentGid();
-    targetTab.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
-    targetTab.dispatchEvent(new MouseEvent("mouseup", { bubbles: true }));
-    targetTab.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const gidAfter = getCurrentGid();
-    if (gidBefore !== gidAfter) {
-        console.log("Method 2 (mousedown + mouseup + click) worked for tab activation");
-    }
-    return gidAfter;
-};
-
-const getCurrentGid = () => {
-    const match = window.location.href.match(/[#&]gid=(\d+)/);
-    return match ? match[1] : null;
+    return await simulateTabClick(targetTab);
 };
 
 const downloadMultipleSheets = async (selectedSheetNames, originalTab) => {
@@ -62,19 +48,14 @@ const downloadMultipleSheets = async (selectedSheetNames, originalTab) => {
         return;
     }
 
-    console.log("Selected sheet names:", selectedSheetNames);
-
-    for (let i = 0; i < selectedSheetNames.length; i++) {
-        const sheetName = selectedSheetNames[i];
-        console.log(`\n--- Processing sheet ${i + 1}/${selectedSheetNames.length}: "${sheetName}" ---`);
-        console.log(`Current URL before processing: ${window.location.href}`);
-
+    for (const sheetName of selectedSheetNames) {
         const gid = await getGidBySheetName(sheetName, originalTab);
-        console.log(`Sheet: "${sheetName}" - GID: ${gid}`);
-        console.log(`URL after activation: ${window.location.href}`);
+        if (gid) {
+            console.log(`Sheet: "${sheetName}" - GID: ${gid}`);
+        } else {
+            console.warn(`Could not get GID for sheet: ${sheetName}`);
+        }
     }
-
-    console.log("GID logging complete!");
 };
 
 export {
@@ -83,6 +64,5 @@ export {
     getAllSheetNames,
     getCurrentSheetName,
     getGidBySheetName,
-    getCurrentGid,
     downloadMultipleSheets
 };
