@@ -1,12 +1,25 @@
 import * as XLSX from "xlsx";
+import { showLoadingOverlay, hideLoadingOverlay, updateLoadingMessage } from "./loadingUtils.js";
 
 const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
     try {
+        // Show loading overlay
+        showLoadingOverlay("Preparing to combine sheets...");
+
+        // Get the Google Sheet name from the page title
+        const sheetName = document.title.replace(" - Google Sheets", "").trim();
+        const fileName = sheetName ? `${sheetName}.xlsx` : "Combined_Sheets.xlsx";
+
         // Create a new workbook with enhanced options
         const workbook = XLSX.utils.book_new();
 
         // Process each sheet
-        for (const [sheetName, gid] of gidSheetMap) {
+        const sheetEntries = Array.from(gidSheetMap.entries());
+        for (let i = 0; i < sheetEntries.length; i++) {
+            const [sheetName, gid] = sheetEntries[i];
+            const progress = Math.round(((i + 1) / sheetEntries.length) * 100);
+
+            updateLoadingMessage(`Processing sheet: "${sheetName}" (${progress}%)`);
             console.log(`Processing sheet: "${sheetName}" with GID: ${gid}`);
 
             // Download the sheet
@@ -44,6 +57,8 @@ const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
             }
         }
 
+        updateLoadingMessage("Generating combined file...");
+
         // Generate the combined file with enhanced writing options
         const combinedArrayBuffer = XLSX.write(workbook, {
             bookType: "xlsx",
@@ -51,6 +66,8 @@ const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
             compression: true,
             bookSST: false
         });
+
+        updateLoadingMessage("Preparing download...");
 
         // Create download link
         const blob = new Blob([combinedArrayBuffer], {
@@ -60,16 +77,21 @@ const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
         const downloadUrl = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.download = "combined_sheets.xlsx";
+        link.download = fileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(downloadUrl);
 
+        // Hide loading overlay
+        hideLoadingOverlay();
+
         console.log("Combined spreadsheet downloaded successfully!");
         return true;
 
     } catch (error) {
+        // Hide loading overlay on error
+        hideLoadingOverlay();
         console.error("Error combining sheets:", error);
         return false;
     }
