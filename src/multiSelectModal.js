@@ -35,6 +35,9 @@ const showMultiSelectModal = () => {
         <button class="cancel-btn">Cancel</button>
         <button class="download-btn">Download</button>
       </div>
+      <div class="warning-note">
+        <p><strong>Note:</strong> Multi-sheet downloads may have formatting issues and compatibility problems in some browsers. We recommend using Google Chrome for the best experience.</p>
+      </div>
     </div>
   `;
 

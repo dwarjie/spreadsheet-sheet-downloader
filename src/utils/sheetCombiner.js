@@ -1,4 +1,5 @@
 import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import { showLoadingOverlay, hideLoadingOverlay, updateLoadingMessage } from "./loadingUtils.js";
 
 const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
@@ -32,20 +33,20 @@ const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
                     continue;
                 }
 
+                // Use arrayBuffer directly
                 const arrayBuffer = await response.arrayBuffer();
+                console.log(`Downloaded sheet "${sheetName}": ${arrayBuffer.byteLength} bytes`);
 
-                // Enhanced reading options to preserve more formatting
+                // Try using arrayBuffer directly without conversion
                 const sheetWorkbook = XLSX.read(arrayBuffer, {
-                    type: "array",
-                    cellStyles: true,
-                    cellDates: true,
-                    cellNF: true,
-                    cellHTML: true
+                    type: "array"
                 });
 
                 // Get the first sheet from the downloaded workbook
                 const sheetNameFromWorkbook = sheetWorkbook.SheetNames[0];
                 const worksheet = sheetWorkbook.Sheets[sheetNameFromWorkbook];
+
+                console.log(`Processing worksheet: "${sheetNameFromWorkbook}" with ${Object.keys(worksheet).length} cells`);
 
                 // Add the sheet to our combined workbook with the original sheet name
                 XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
@@ -54,34 +55,30 @@ const combineSheetsFromGids = async (sheetKey, gidSheetMap) => {
 
             } catch (error) {
                 console.error(`Error processing sheet "${sheetName}":`, error);
+                console.error(`Error details:`, error.message);
+                console.error(`Error stack:`, error.stack);
             }
         }
 
         updateLoadingMessage("Generating combined file...");
 
-        // Generate the combined file with enhanced writing options
-        const combinedArrayBuffer = XLSX.write(workbook, {
+        // Generate the combined file using array type with styling options
+        const combinedArray = XLSX.write(workbook, {
             bookType: "xlsx",
             type: "array",
-            compression: true,
-            bookSST: false
+            cellStyles: true,
+            cellDates: true,
+            cellNF: true
         });
 
         updateLoadingMessage("Preparing download...");
 
-        // Create download link
-        const blob = new Blob([combinedArrayBuffer], {
+        // Use FileSaver for better browser compatibility
+        const blob = new Blob([combinedArray], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         });
 
-        const downloadUrl = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(downloadUrl);
+        saveAs(blob, fileName);
 
         // Hide loading overlay
         hideLoadingOverlay();

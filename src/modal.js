@@ -23,6 +23,9 @@ const showDownloadModal = () => {
           <label for="multi-sheet">Multi-Sheet Download</label>
         </div>
       </div>
+      <div class="warning-note" style="display: none;">
+        <p><strong>Note:</strong> Multi-sheet downloads may have formatting issues and compatibility problems in some browsers. We recommend using Google Chrome for the best experience.</p>
+      </div>
       <div class="button-group">
         <button class="cancel-btn">Cancel</button>
         <button class="confirm-btn">Confirm</button>
@@ -38,6 +41,19 @@ const showDownloadModal = () => {
 
   cancelBtn.addEventListener("click", closeDownloadModal);
   confirmBtn.addEventListener("click", confirmDownload);
+
+  // Add event listeners to radio buttons to show/hide warning note
+  const singleRadio = modal.querySelector("#single-sheet");
+  const multiRadio = modal.querySelector("#multi-sheet");
+  const warningNote = modal.querySelector(".warning-note");
+
+  singleRadio.addEventListener("change", () => {
+    warningNote.style.display = "none";
+  });
+
+  multiRadio.addEventListener("change", () => {
+    warningNote.style.display = "block";
+  });
 
   // Close modal when clicking outside
   modal.addEventListener("click", (e) => {

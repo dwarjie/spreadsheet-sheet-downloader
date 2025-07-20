@@ -5,11 +5,11 @@ const showDownloadSheet = () => {
     const sheetTabs = document.querySelectorAll(".docs-sheet-tab");
     const wrapperId = "sheet-downloader-btn-wrapper";
     const existingWrapper = document.getElementById(wrapperId);
-    const buttonBar = document.querySelector(".docs-sheet-button-bar");
+    const targetElement = document.getElementById("docs-revisions-appbarbutton");
 
     if (sheetTabs.length > 1) {
-        if (!existingWrapper && buttonBar) {
-            const wrapper = document.createElement("td");
+        if (!existingWrapper && targetElement) {
+            const wrapper = document.createElement("div");
             wrapper.id = wrapperId;
             wrapper.classList.add("sheet-downloader-btn-wrapper");
             const button = document.createElement("button");
@@ -19,7 +19,7 @@ const showDownloadSheet = () => {
             button.innerHTML = "<img src='" + chrome.runtime.getURL("file-arrow-down-solid.svg") + "' alt='Download' style='width:16px;height:16px;filter:invert(1);'>";
             button.addEventListener("click", showDownloadModal);
             wrapper.appendChild(button);
-            buttonBar.parentElement.insertAdjacentElement("beforebegin", wrapper);
+            targetElement.parentElement.insertAdjacentElement("beforebegin", wrapper);
         }
     } else {
         if (existingWrapper) {
