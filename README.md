@@ -5,7 +5,6 @@ A browser extension that enables downloading individual sheets from Google Sprea
 ![Extension Demo](https://img.shields.io/badge/Status-Active-brightgreen)
 ![Chrome Support](https://img.shields.io/badge/Chrome-Supported-brightgreen)
 ![Firefox Support](https://img.shields.io/badge/Firefox-Supported-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## 🚀 Features
 
