@@ -2,7 +2,13 @@
     "manifest_version": 3,
     "name": "Spreadsheet Sheet Downloader",
     "version": "1.0.0",
-    "description": "Enables downloading a single sheets from Google Spreadsheets.",
+    "description": "A browser extension that enables downloading individual sheets from Google Spreadsheets with enhanced functionality for combining multiple sheets into a single Excel file.",
+    "icons": {
+        "16": "src/assets/icon-16.png",
+        "32": "src/assets/icon-32.png",
+        "48": "src/assets/icon-48.png",
+        "128": "src/assets/icon-128.png"
+    },
     "web_accessible_resources": [
         {
             "resources": [

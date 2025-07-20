@@ -1,11 +1,12 @@
-# Spreadsheet Sheet Downloader
-
+<h1 align="center" style="border-bottom: 0px;">
+    <img src="./src/assets/icon-128.png"/>
+    <div>Spreadsheet Sheet Downloader</div>
+    <div>
+        <a href="#"><img src="https://img.shields.io/badge/Chrome-Extension-brightgreen?logo=googlechrome&logoColor=white" alt="Chrome Extension"/></a>
+        <a href="#"><img src="https://img.shields.io/badge/Firefox-Extension-orange?logo=firefox-browser&logoColor=white" alt="Firefox Extension"/></a>
+    </div>
+</h1>
 A browser extension that enables downloading individual sheets from Google Spreadsheets with enhanced functionality for combining multiple sheets into a single Excel file.
-
-![Extension Demo](https://img.shields.io/badge/Status-Active-brightgreen)
-![Chrome Support](https://img.shields.io/badge/Chrome-Supported-brightgreen)
-![Firefox Support](https://img.shields.io/badge/Firefox-Supported-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## 🚀 Features
 
