@@ -2,7 +2,7 @@
     <img src="./src/assets/icon-128.png"/>
     <div>Spreadsheet Sheet Downloader</div>
     <div>
-        <a href="#"><img src="https://img.shields.io/badge/Chrome-Extension-brightgreen?logo=googlechrome&logoColor=white" alt="Chrome Extension"/></a>
+        <a href="https://chromewebstore.google.com/detail/spreadsheet-sheet-downloa/nbfbpapcnlideliiaepaojgdoggpjooo"><img src="https://img.shields.io/badge/Chrome-Extension-brightgreen?logo=googlechrome&logoColor=white" alt="Chrome Extension"/></a>
         <a href="#"><img src="https://img.shields.io/badge/Firefox-Extension-orange?logo=firefox-browser&logoColor=white" alt="Firefox Extension"/></a>
     </div>
 </h1>
@@ -154,7 +154,7 @@ We welcome contributions! Here's how you can help:
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/spreadsheet-sheet-downloader/issues) page
+1. Check the [Issues](https://github.com/dwarjie/spreadsheet-sheet-downloader/issues) page
 2. Search existing issues before creating a new one
 3. Provide detailed information about your environment and the issue
 4. Include browser console logs if applicable
