@@ -3,7 +3,7 @@
     <div>Spreadsheet Sheet Downloader</div>
     <div>
         <a href="https://chromewebstore.google.com/detail/spreadsheet-sheet-downloa/nbfbpapcnlideliiaepaojgdoggpjooo"><img src="https://img.shields.io/badge/Chrome-Extension-brightgreen?logo=googlechrome&logoColor=white" alt="Chrome Extension"/></a>
-        <a href="#"><img src="https://img.shields.io/badge/Firefox-Extension-orange?logo=firefox-browser&logoColor=white" alt="Firefox Extension"/></a>
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/spreadsheet-sheet-downloader"><img src="https://img.shields.io/badge/Firefox-Extension-orange?logo=firefox-browser&logoColor=white" alt="Firefox Extension"/></a>
     </div>
 </h1>
 A browser extension that enables downloading individual sheets from Google Spreadsheets with enhanced functionality for combining multiple sheets into a single Excel file.
